@@ -57,7 +57,6 @@ function generateShoppingItemsString(shoppingList, searchTerm) {
                 .filter(item => !item.checked || STORE.displayChecked)
                 .filter(item => searchTerm === undefined || item.name.toLowerCase().includes(searchTerm.toLowerCase()))
                 .map((item, index) => generateItemElement(item, index));
-  //items = typeof searchTerm === 'string' ? items.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase())) : items;
   return items.join("");
 }
 
