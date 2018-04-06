@@ -55,8 +55,9 @@ function generateShoppingItemsString(shoppingList, searchTerm) {
   console.log("Generating shopping list element");
   let items = shoppingList
                 .filter(item => !item.checked || STORE.displayChecked)
+                .filter(item => searchTerm === undefined || item.name.toLowerCase().includes(searchTerm.toLowerCase()))
                 .map((item, index) => generateItemElement(item, index));
-  items = typeof searchTerm === 'string' ? items.filter(item => item.name === searchTerm.toLowerCase()) : items;
+  //items = typeof searchTerm === 'string' ? items.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase())) : items;
   return items.join("");
 }
 
@@ -168,6 +169,15 @@ function handleToggleChecked() {
   });
 }
 
+function handleSearchFormSubmit() {
+  $('#js-search-form').on('submit', function(event) {
+    event.preventDefault();
+    console.log('`handleSearchFormSubmit` ran');
+    const searchTerm = $(this['search-form-query']).val();
+    renderShoppingList(searchTerm);
+  });
+}
+
 function handleShoppingList() {
   renderShoppingList();
   handleNewItemSubmit();
@@ -176,6 +186,7 @@ function handleShoppingList() {
   handleEditItemClicked();
   handleNewNameSubmit();
   handleToggleChecked();
+  handleSearchFormSubmit();
 }
 
 $(handleShoppingList);
