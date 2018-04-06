@@ -54,8 +54,8 @@ function generateItemElement(item, itemIndex) {
 function generateShoppingItemsString(shoppingList, searchTerm) {
   console.log("Generating shopping list element");
   let items = shoppingList
-                .map((item, index) => generateItemElement(item, index))
-                .filter(item => !item.checked || STORE.displayChecked);
+                .filter(item => !item.checked || STORE.displayChecked)
+                .map((item, index) => generateItemElement(item, index));
   items = typeof searchTerm === 'string' ? items.filter(item => item.name === searchTerm.toLowerCase()) : items;
   return items.join("");
 }
@@ -154,6 +154,20 @@ function handleNewNameSubmit() {
   });
 }
 
+function toggleDisplayChecked() {
+  console.log(`Toggling STORE.displayChecked to ${!STORE.displayChecked}`);
+  STORE.displayChecked = !STORE.displayChecked;
+}
+
+function handleToggleChecked() {
+  $('.js-toggle-list-checked').on('click', function(event) {
+    console.log('`handleToggleChecked` ran');
+    this.value = this.value === 'Unlist Checked' ? 'List Checked' : 'Unlist Checked';
+    toggleDisplayChecked();
+    renderShoppingList();
+  });
+}
+
 function handleShoppingList() {
   renderShoppingList();
   handleNewItemSubmit();
@@ -161,6 +175,7 @@ function handleShoppingList() {
   handleDeleteItemClicked();
   handleEditItemClicked();
   handleNewNameSubmit();
+  handleToggleChecked();
 }
 
 $(handleShoppingList);
