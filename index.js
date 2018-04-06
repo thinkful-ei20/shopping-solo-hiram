@@ -29,7 +29,7 @@ const STORE = {
 function generateItemElement(item, itemIndex) {
   let itemText;`<span class="shopping-item js-shopping-item ${item.checked ? "shopping-item__checked" : ''}">${item.name}</span>`;
   if (item.editable) {
-    itemText = `<form id="js-edit-name-form"><input type="text" class="shopping-item" value="${item.name}" /></form>`;
+    itemText = `<form id="js-edit-name-form"><input type="text" name="new-name" class="shopping-item" value="${item.name}" /></form>`;
   } else {
     itemText = `<span class="shopping-item js-shopping-item ${item.checked ? "shopping-item__checked" : ''}">${item.name}</span>`;
   }
@@ -146,6 +146,11 @@ function handleNewNameSubmit() {
   $('.js-shopping-list').on('submit', '#js-edit-name-form', function(event) {
     event.preventDefault();
     console.log('`handleNewNameSubmit` ran');
+    const newName = $(this['new-name']).val();
+    const itemIndex = getItemIndexFromElement(this);
+    renameItemInStore(itemIndex, newName);
+    toggleItemEditableInStore(itemIndex);
+    renderShoppingList();
   });
 }
 
