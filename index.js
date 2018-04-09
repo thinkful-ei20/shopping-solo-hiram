@@ -111,7 +111,7 @@ function handleItemCheckClicked() {
 
 function deleteItemFromStore(itemIndex) {
   console.log(`Removing ${STORE.data[itemIndex].name} from shopping list`);
-  delete STORE.data[itemIndex];
+  STORE.data = STORE.data.filter((item, index) => index !== itemIndex)
 }
 
 function handleDeleteItemClicked() {
